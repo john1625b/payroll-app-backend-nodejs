@@ -1,0 +1,11 @@
+{
+  "name": "payroll-app",
+  "version": "1.0.0",
+  "description": "node.js express app for payroll info",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "John Fernandes",
+  "license": "ISC"
+}
