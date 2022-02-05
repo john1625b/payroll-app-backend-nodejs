@@ -10,6 +10,7 @@ const upload = multer({ dest: 'tmp/csv/' });
 const app = express();
 const router = new Router();
 const server = http.createServer(app);
+const sql = require('clients');
 const port = 3000
 
 router.post('/', upload.single('file'), function (req, res) {
