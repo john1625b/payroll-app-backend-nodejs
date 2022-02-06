@@ -18,6 +18,7 @@ const uploadCsvController = (req, res) => {
             fileRows.push(data); // push each row
         })
         .on('error', error => {
+            res.status(400)
             res.send('Error parsing csv. Make sure the csv is in proper format')
         })
         .on("end", function () {
