@@ -22,7 +22,7 @@ select
      date,
      hours,
      jobGroup,
-     IIF(jobGroup = 'A', 20 * sum(hours), 30 * sum(hours) ) as amountPaid,
+     IIF(jobGroup = 'A', 20 * sum(hours), 30 * sum(hours) ) as amountPaid
 from employee
 group by id, bucket
 `
