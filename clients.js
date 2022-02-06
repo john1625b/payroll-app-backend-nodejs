@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('./data.db');
 
-// db.run("CREATE TABLE employee (Date date, Id integer, Hours integer, JobGroup char(1))");
+// db.run("CREATE TABLE employee (Date date, Hours integer, Id integer, JobGroup char(1))");
 
 
 // db.run("INSERT INTO employee VALUES ('4/1/2023',1, 8, 'A')");
@@ -12,10 +12,26 @@ const db = new sqlite3.Database('./data.db');
 // }
 // stmt.finalize();
 
+// db.run('DROP TABLE employee');
 // db.run('DELETE FROM employee');
 
-db.each("SELECT * FROM employee", function(err, row) {
+const query1 = `
+select 
+     id as employeeId,
+     IIF( CAST(strftime('%d', date) as integer) <= 15, DATE(date, 'start of month'), DATE(date, 'start of month', '+15 day')) as bucket,
+     date,
+     hours,
+     jobgroup,
+     IIF(jobgroup = 'A', 20 * sum(hours), 30 * sum(hours) ) as amountPaid,
+     (select date, hours from employee) as nested
+from employee
+group by id, bucket
+`
+const query2 = 'select * from employee'
+
+db.each(query1, function(err, row) {
     console.log('loggingdb', row);
 });
+
 
 module.exports = db;

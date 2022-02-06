@@ -1,17 +1,16 @@
-const http = require('http');
 const fs = require('fs');
-
 const express = require('express');
-const multer = require('multer');
-const csv = require('fast-csv');
 
 const Router = express.Router;
+const moment = require('moment')
+const multer = require('multer');
 const upload = multer({ dest: 'tmp/csv/' });
+const csv = require('fast-csv');
+const db = require('./clients')
+
 const app = express();
 const router = new Router();
-const server = http.createServer(app);
 const port = 3000
-const db = require('./clients')
 
 router.post('/', upload.single('file'), function (req, res) {
     const fileRows = [];
@@ -23,6 +22,8 @@ router.post('/', upload.single('file'), function (req, res) {
     // open uploaded file
     csv.parseFile(req.file.path, { headers: true})
         .on("data", function (data) {
+            // format date to ISO format
+            data = {...data, date: moment(data.date, 'DD/MM/YYYY').format('YYYY-MM-DD')}
             fileRows.push(data); // push each row
         })
         .on('error', error => {
