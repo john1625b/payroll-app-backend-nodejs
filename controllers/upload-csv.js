@@ -1,3 +1,4 @@
+const fs = require('fs');
 const csv = require('fast-csv');
 const moment = require('moment')
 const db = require('../clients')
