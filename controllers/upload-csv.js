@@ -1,7 +1,7 @@
 const fs = require('fs');
 const csv = require('fast-csv');
 const moment = require('moment')
-const db = require('../clients')
+const db = require('../services/clients')
 
 const uploadCsvController = (req, res) => {
     const fileRows = [];

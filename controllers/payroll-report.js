@@ -1,4 +1,4 @@
-const db = require('../clients')
+const db = require('../services/clients')
 const moment = require('moment')
 
 const payrollReport = (req, res) => {
@@ -16,7 +16,8 @@ const payrollReport = (req, res) => {
             res.status(400)
             res.send('error retrieving pay-roll report')
         }
-        // transform data structure to have nested JSON of payPeriod
+        // transform data structure to have nested JSON of payPeriod since Sqllite does not have native support
+        // for converting column to JSON
         data = data.map(row => {
             const startDate = row.bucket
             let endDate

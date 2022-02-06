@@ -15,9 +15,8 @@ app.listen(port, () => {
 // todo: dont insert if already exists
 // todo: tests
 // todo: fix query to have nested object
-// todo: make script for creating table
-// todo: delete test, index.js
 // todo: clean up client
 
 
+// todo: make script for creating table
 // todo: hide bucket
