@@ -1,18 +1,8 @@
-const fs = require('fs');
-const express = require('express');
-
-const Router = express.Router;
-const moment = require('moment')
-const multer = require('multer');
-const upload = multer({ dest: 'tmp/csv/' });
 const csv = require('fast-csv');
-const db = require('./clients')
+const moment = require('moment')
+const db = require('../clients')
 
-const app = express();
-const router = new Router();
-const port = 3000
-
-router.post('/', upload.single('file'), function (req, res) {
+const uploadCsvController = (req, res) => {
     const fileRows = [];
 
     if (!req.file) {
@@ -40,12 +30,6 @@ router.post('/', upload.single('file'), function (req, res) {
             //process "fileRows" and respond
             res.send('file successfully uploaded')
         })
-});
+}
 
-app.use('/upload-csv', router);
-
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
-
-// todo: dont insert if already exists
+module.exports = uploadCsvController

@@ -21,9 +21,8 @@ select
      IIF( CAST(strftime('%d', date) as integer) <= 15, DATE(date, 'start of month'), DATE(date, 'start of month', '+15 day')) as bucket,
      date,
      hours,
-     jobgroup,
-     IIF(jobgroup = 'A', 20 * sum(hours), 30 * sum(hours) ) as amountPaid,
-     (select date, hours from employee) as nested
+     jobGroup,
+     IIF(jobGroup = 'A', 20 * sum(hours), 30 * sum(hours) ) as amountPaid,
 from employee
 group by id, bucket
 `
