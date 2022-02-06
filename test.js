@@ -10,8 +10,8 @@ const upload = multer({ dest: 'tmp/csv/' });
 const app = express();
 const router = new Router();
 const server = http.createServer(app);
-const sql = require('clients');
 const port = 3000
+const db = require('./clients')
 
 router.post('/', upload.single('file'), function (req, res) {
     const fileRows = [];
@@ -21,7 +21,7 @@ router.post('/', upload.single('file'), function (req, res) {
     }
 
     // open uploaded file
-    csv.parseFile(req.file.path)
+    csv.parseFile(req.file.path, { headers: true})
         .on("data", function (data) {
             fileRows.push(data); // push each row
         })
@@ -30,6 +30,11 @@ router.post('/', upload.single('file'), function (req, res) {
         })
         .on("end", function () {
             console.log(fileRows)
+            const stmt = db.prepare("INSERT INTO employee VALUES (?,?,?,?)");
+            fileRows.map(row => {
+                stmt.run(Object.values(row));
+            })
+            stmt.finalize();
             fs.unlinkSync(req.file.path);   // remove temp file
             //process "fileRows" and respond
             res.send('file successfully uploaded')
