@@ -26,14 +26,11 @@ select
 from employee
 group by id, bucket
 `
-const query2 = 'select * from employee'
+const query2 = 'select * as nested from employee'
 
-// db.each(query2, function(err, row) {
-//     console.log('loggingdb', row);
-// });
-db.run(query2, (data) => {
-    console.log(data)
-})
+db.each(query2, function(err, row) {
+    console.log('loggingdb', row);
+});
 
 
 module.exports = db;

@@ -47,5 +47,3 @@ app.use('/upload-csv', router);
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
-
-// todo: dont insert if already exists
