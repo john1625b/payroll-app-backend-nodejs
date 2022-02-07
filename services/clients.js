@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./data.db');
+const db = new sqlite3.Database('./db/data.db');
 
 // db.run("CREATE TABLE employee (Date date, Hours integer, Id integer, JobGroup char(1))");
 
