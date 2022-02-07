@@ -4,7 +4,7 @@
   "description": "node.js express app for payroll info",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "seed": "node db/seed.js"
   },
   "author": "John Fernandes",
@@ -16,5 +16,9 @@
     "moment": "^2.29.1",
     "multer": "^1.4.4",
     "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "jest": "^27.5.0",
+    "supertest": "^6.2.2"
   }
 }

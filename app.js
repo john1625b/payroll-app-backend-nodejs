@@ -11,11 +11,14 @@ app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
 
+module.exports = app
+
 // todo: put jobgroup on different table
 // todo: dont insert if already exists
 // todo: tests
 // todo: fix query to have nested object
 // todo: clean up client
+// todo: dependency injection sql client
 
 
 // todo: make script for creating table
