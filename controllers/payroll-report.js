@@ -10,7 +10,6 @@ const payrollReport = (req, res) => {
         FROM employee
         GROUP BY id, bucket
         `
-    const query2 = 'select * from employee'
     db.all(query1, (err, data) => {
         if (err) {
             res.status(400)
