@@ -5,7 +5,7 @@ const moment = require('moment')
 const DAL = new DataAccessLayer(db)
 
 const payrollReport = (req, res) => {
-    const callBack = (err, data) => {
+    const handleResponse = (err, data) => {
         if (err) {
             res.status(400)
             res.send('error retrieving pay-roll report')
@@ -31,7 +31,7 @@ const payrollReport = (req, res) => {
         console.log('loggingdb in route', data);
         res.send(data)
     }
-    DAL.getPayRollReport(callBack)
+    DAL.getPayRollReport(handleResponse)
 }
 
 module.exports = payrollReport

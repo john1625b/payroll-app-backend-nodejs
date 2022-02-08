@@ -25,7 +25,12 @@ const uploadCsvController = (req, res) => {
             res.send('Error parsing csv. Make sure the csv is in proper format')
         })
         .on("end",  () => {
-            DAL.insertIntoEmployee(fileRows)
+            try {
+                DAL.insertIntoEmployee(fileRows)
+            } catch (e) {
+                res.status(400)
+                res.send('error inserting into database')
+            }
             fs.unlinkSync(req.file.path);   // remove temp file
             //process "fileRows" and respond
             res.send('file successfully uploaded')

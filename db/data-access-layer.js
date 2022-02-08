@@ -3,8 +3,8 @@ class DataAccessLayer {
         this.database = database
     }
 
-    getPayRollReport (handleEmployeeSelection)  {
-        const query1 = `
+    getPayRollReport (handleResponse)  {
+        const query = `
             SELECT 
                  id as employeeId,
                  IIF( CAST(strftime('%d', date) as integer) <= 15, DATE(date, 'start of month'), DATE(date, 'start of month', '+15 day')) as bucket,
@@ -12,15 +12,27 @@ class DataAccessLayer {
             FROM employee
             GROUP BY id, bucket
             `
-        this.database.all(query1, handleEmployeeSelection)
+        this.database.all(query, handleResponse)
     }
 
     insertIntoEmployee (rows) {
-        const stmt = this.database.prepare("INSERT INTO employee VALUES (?,?,?,?)");
-        rows.map(row => {
-            stmt.run(Object.values(row));
-        })
-        stmt.finalize();
+        const insertion = `INSERT INTO employee VALUES (?,?,?,?)`
+        const csvIdColumnName = 'employee id'
+        const stmt = this.database.prepare(insertion);
+        try {
+            rows.map(row => {
+                this.database.all(`SELECT id from employee WHERE id = ${row[csvIdColumnName]}`,
+                    (err, res) => {
+                        // only insert if it does not already exist
+                        if (res.length === 0) {
+                            stmt.run(Object.values(row))
+                        }
+                })
+            })
+        } catch (e) {
+            console.error(e)
+            return e
+        }
     }
 }
 
