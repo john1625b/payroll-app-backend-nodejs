@@ -28,14 +28,9 @@ group by id, bucket
 `
 const query2 = 'select * from employee'
 
-// db.each(query2, function(err, row) {
-//     console.log('loggingdb', row);
-// });
+db.each(query2, function(err, row) {
+    console.log('loggingdb', row);
+});
 
-const run = async () => {
-    const result = await db.all(query2, []);
-    console.log(Object.keys(result))
-}
-run().then(res => res)
 
 module.exports = db;

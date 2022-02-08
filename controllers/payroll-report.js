@@ -1,16 +1,11 @@
 const db = require('../services/clients')
+const DataAccessLayer = require('../db/data-access-layer')
 const moment = require('moment')
 
+const DAL = new DataAccessLayer(db)
+
 const payrollReport = (req, res) => {
-    const query1 = `
-        SELECT 
-             id as employeeId,
-             IIF( CAST(strftime('%d', date) as integer) <= 15, DATE(date, 'start of month'), DATE(date, 'start of month', '+15 day')) as bucket,
-             IIF(jobGroup = 'A', 20 * sum(hours), 30 * sum(hours) ) as amountPaid
-        FROM employee
-        GROUP BY id, bucket
-        `
-    db.all(query1, (err, data) => {
+    const callBack = (err, data) => {
         if (err) {
             res.status(400)
             res.send('error retrieving pay-roll report')
@@ -35,7 +30,8 @@ const payrollReport = (req, res) => {
         })
         console.log('loggingdb in route', data);
         res.send(data)
-    })
+    }
+    DAL.getPayRollReport(callBack)
 }
 
 module.exports = payrollReport
